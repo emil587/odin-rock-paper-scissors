@@ -1,20 +1,46 @@
 
 const choices = ['rock', 'paper', 'scissors']
+let score = {'player':0,
+            'computer':0,
+            'draw':0}
+
+const buttons = document.querySelectorAll('button')
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        //alert(button.id)
+        getPlayerChoice(button.id)
+    })
+})
 
 function getComputerChoice() {
     const choice = Math.floor(Math.random() * 3)
-    return choices.at(choice)
+    const selection = choices.at(choice)
+    document.getElementById('computerSelection').textContent = selection
+    return selection
 }
 
-function getPlayerChoice() {
-    const choice = prompt('type choice').toLowerCase()
-    if (choices.includes(choice)) {
-        return choice
-    } else throw('Invalid choice')
+function getPlayerChoice(selectedButton) {
+    if (selectedButton == 'reset') {
+        location.reload()
+    } else {
+        document.getElementById('playerSelection').textContent = selectedButton
+        winner = playRound(selectedButton)    
+    }
+    score[winner]++
+    updateScoreboard()   
     
 }
 
-function playRound(playerSelection, computerSelection) {
+function updateScoreboard() {
+    document.getElementById('playerWins').textContent = score['player']
+    document.getElementById('computerWins').textContent = score['computer']
+    document.getElementById('draws').textContent = score['draw']
+    
+}
+
+function playRound(playerSelection) {
+    computerSelection = getComputerChoice()
+    
     let winner = ''
     if (playerSelection == computerSelection) {
         winner = 'draw'
@@ -31,7 +57,7 @@ function playRound(playerSelection, computerSelection) {
             winner = 'computer'
         } else {winner = 'player'}
     }
-    console.log(winner + ' wins round')
+    document.getElementById('result').textContent = winner + ' wins round'
     return winner
 }
 
