@@ -28,6 +28,11 @@ function getPlayerChoice(selectedButton) {
     }
     score[winner]++
     updateScoreboard()   
+    if (score[winner] == 5) {
+        alert(winner + ' wins!')
+
+    } 
+    
     
 }
 
